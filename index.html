@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Hiểu Luật Biển Quốc Tế</title>
+    <style>
+        :root {
+    /* Ocean Color Palette */
+    --deep-blue: #002b5b;
+    --ocean-gradient: linear-gradient(135deg, #000428 0%, #004e92 100%);
+    --teal: #256d85;
+    --cyan: #068da9;
+    --sand: #f3e5ab;
+    --coral: #ff7f50;
+    --foam-white: rgba(255, 255, 255, 0.9);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--ocean-gradient);
+    background-attachment: fixed;
+    color: white;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+/* Background Animated Bubbles */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    animation: float 15s infinite ease-in-out;
+}
+
+body::before { top: -10%; left: -5%; }
+body::after { bottom: -10%; right: -5%; animation-delay: -5s; }
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -50px) scale(1.1); }
+}
+
+/* Glassmorphism Container */
+.app-container {
+    width: 90%;
+    max-width: 700px;
+    padding: 40px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    margin: 20px;
+}
+
+/* Header Styling */
+header h1 {
+    font-size: 2.2rem;
+    text-align: center;
+    color: var(--sand);
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    margin-bottom: 5px;
+}
+
+header .subtitle {
+    text-align: center;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-bottom: 30px;
+    display: block;
+}
+
+/* List Items (Stones/Pearls) */
+.btn-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 18px 25px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: block;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.btn-item:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(10px);
+    border-color: var(--cyan);
+    box-shadow: -5px 5px 20px rgba(72, 198, 239, 0.3);
+}
+
+/* Navigation Buttons */
+.btn-nav {
+    background: transparent;
+    border: 1px solid var(--sand);
+    color: var(--sand);
+    padding: 8px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.btn-nav:hover {
+    background: var(--sand);
+    color: var(--deep-blue);
+}
+
+/* Question Card */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--deep-blue);
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.badge {
+    background: var(--cyan);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.q-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 20px 0;
+    line-height: 1.3;
+}
+
+/* Reveal Button (The Treasure Button) */
+.btn-ocean {
+    background: linear-gradient(to right, #008080, #48c6ef);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(6, 141, 169, 0.3);
+    text-transform: uppercase;
+}
+
+.btn-ocean:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 25px rgba(6, 141, 169, 0.5);
+}
+
+/* Answer Content */
+.answer-box {
+    margin-top: 25px;
+    padding: 20px;
+    background: #f0fbff;
+    border-radius: 15px;
+    border-left: 6px solid var(--cyan);
+    text-align: left;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.a-text {
+    font-size: 1.1rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* Utilities */
+.screen { display: none; }
+.active { display: block; animation: fadeIn 0.6s ease; }
+.hidden { display: none; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+}
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>🌊 Tìm Hiểu Luật Biển Quốc Tế 🇻🇳</h1>
+        </header>
+
+        <section id="view-topics" class="screen active">
+            <p class="instruction">Chọn chủ đề để bắt đầu:</p>
+            <div id="topic-list" class="list-group">
+                </div>
+        </section>
+
+        <section id="view-questions" class="screen hidden">
+            <div class="nav-bar">
+                <button class="btn-nav" onclick="app.goBackToTopics()">⬅ Về danh sách chủ đề</button>
+            </div>
+            <h2 id="topic-title-display">Title</h2>
+            <div id="question-list" class="list-group">
+                </div>
+        </section>
+
+        <section id="view-detail" class="screen hidden">
+            <div class="nav-bar">
+                <button class="btn-nav" onclick="app.goBackToQuestions()">⬅ Về danh sách câu hỏi</button>
+                <button class="btn-nav secondary" onclick="app.goBackToTopics()">🏠 Về trang chủ</button>
+            </div>
+
+            <div class="card">
+                <div class="question-content">
+                    <h3>Câu hỏi:</h3>
+                    <p id="detail-question" class="text-large">Loading...</p>
+                </div>
+
+                <button id="btn-reveal" class="btn-primary" onclick="app.toggleAnswer()">Xem Câu Trả Lời</button>
+
+                <div id="detail-answer-container" class="answer-content hidden">
+                    <h3>Trả lời:</h3>
+                    <p id="detail-answer" class="text-highlight">Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Kiến thức pháp luật về biển đảo Việt Nam và Quốc tế</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Data Content ---
+const db = [
+    {
+        title: "KIẾN THỨC CHUNG VỀ LUẬT BIỂN QUỐC TẾ",
+        items: [
+            { q: "1. Luật biển quốc tế là gì?", a: "Là hệ thống quy định quốc tế nhằm quản lý việc sử dụng biển và đại dương." },
+            { q: "2. Ai xây dựng luật biển quốc tế?", a: "Các quốc gia thông qua Liên Hợp Quốc và các hiệp ước quốc tế." },
+            { q: "3. Vì sao cần có luật biển quốc tế?", a: "Để tránh xung đột và bảo đảm quyền lợi công bằng giữa các quốc gia." },
+            { q: "4. Luật biển quốc tế có bắt buộc không?", a: "Có, với những quốc gia đã tham gia các công ước liên quan." },
+            { q: "5. Luật biển quốc tế áp dụng cho khu vực nào?", a: "Biển, đại dương và các vùng biển liên quan trên toàn thế giới." },
+            { q: "6. Luật biển quốc tế có thay đổi không?", a: "Có thể được bổ sung, điều chỉnh thông qua thỏa thuận quốc tế." },
+            { q: "7. Quốc gia không có biển có chịu luật biển không?", a: "Có, vẫn được hưởng quyền hàng hải theo luật quốc tế." },
+            { q: "8. Luật biển quốc tế có liên quan đến hòa bình không?", a: "Có, giúp duy trì hòa bình và ổn định trên biển." },
+            { q: "9. Luật biển quốc tế có bảo vệ môi trường biển không?", a: "Có, quy định trách nhiệm bảo vệ môi trường biển." },
+            { q: "10. Học sinh cần hiểu luật biển để làm gì?", a: "Để nâng cao nhận thức và bảo vệ chủ quyền quốc gia bằng tri thức." }
+        ]
+    },
+    {
+        title: "UNCLOS 1982 – CÔNG ƯỚC LUẬT BIỂN",
+        items: [
+            { q: "11. UNCLOS 1982 là gì?", a: "Là Công ước Liên Hợp Quốc về Luật Biển năm 1982." },
+            { q: "12. UNCLOS được coi là gì của đại dương?", a: "Là “Hiến pháp của đại dương”." },
+            { q: "13. UNCLOS có bao nhiêu quốc gia tham gia?", a: "Hơn 160 quốc gia và vùng lãnh thổ." },
+            { q: "14. Việt Nam tham gia UNCLOS năm nào?", a: "Năm 1994." },
+            { q: "15. UNCLOS quy định nội dung chính nào?", a: "Vùng biển, quyền – nghĩa vụ quốc gia, giải quyết tranh chấp." },
+            { q: "16. UNCLOS có giá trị pháp lý không?", a: "Có, rất cao trong luật pháp quốc tế." },
+            { q: "17. UNCLOS có áp dụng cho tranh chấp biển đảo không?", a: "Có." },
+            { q: "18. UNCLOS có cho phép chiếm đảo bằng vũ lực không?", a: "Không." },
+            { q: "19. UNCLOS có bảo vệ quyền lợi nước nhỏ không?", a: "Có, đảm bảo công bằng giữa các quốc gia." },
+            { q: "20. UNCLOS có còn hiệu lực không?", a: "Có, vẫn đang được áp dụng rộng rãi." }
+        ]
+    },
+    {
+        title: "CÁC VÙNG BIỂN THEO LUẬT QUỐC TẾ",
+        items: [
+            { q: "21. Nội thủy là gì?", a: "Vùng nước phía trong đường cơ sở, thuộc chủ quyền hoàn toàn." },
+            { q: "22. Lãnh hải rộng bao nhiêu?", a: "12 hải lý tính từ đường cơ sở." },
+            { q: "23. Quốc gia có quyền gì ở lãnh hải?", a: "Chủ quyền như trên đất liền." },
+            { q: "24. Vùng tiếp giáp lãnh hải rộng bao nhiêu?", a: "12 hải lý tiếp theo lãnh hải." },
+            { q: "25. Vùng đặc quyền kinh tế (EEZ) rộng bao nhiêu?", a: "200 hải lý từ đường cơ sở." },
+            { q: "26. Quốc gia có quyền gì ở EEZ?", a: "Khai thác tài nguyên biển." },
+            { q: "27. Các nước khác có được đi lại trong EEZ không?", a: "Có, được tự do hàng hải." },
+            { q: "28. Thềm lục địa là gì?", a: "Phần kéo dài tự nhiên của lục địa ra biển." },
+            { q: "29. Thềm lục địa có thể vượt quá 200 hải lý không?", a: "Có, nếu có cơ sở khoa học." },
+            { q: "30. Các vùng biển được xác định dựa trên gì?", a: "Đường cơ sở của quốc gia ven biển." }
+        ]
+    },
+    {
+        title: "ĐẢO – ĐÁ – CHỦ QUYỀN BIỂN ĐẢO",
+        items: [
+            { q: "31. Đảo theo luật quốc tế là gì?", a: "Vùng đất nổi tự nhiên, có đời sống con người." },
+            { q: "32. Đá có được coi là đảo không?", a: "Không, nếu không duy trì được đời sống." },
+            { q: "33. Đảo có EEZ không?", a: "Có." },
+            { q: "34. Đá có EEZ không?", a: "Không." },
+            { q: "35. Chủ quyền biển đảo dựa trên yếu tố nào?", a: "Luật quốc tế, lịch sử, quản lý thực tế." },
+            { q: "36. Chiếm giữ bằng vũ lực có hợp pháp không?", a: "Không." },
+            { q: "37. Bằng chứng lịch sử có quan trọng không?", a: "Có, rất quan trọng." },
+            { q: "38. Quản lý hòa bình có ý nghĩa gì?", a: "Thể hiện chủ quyền hợp pháp." },
+            { q: "39. Chủ quyền biển đảo có thể tranh chấp không?", a: "Có, nếu các bên có yêu sách chồng lấn." },
+            { q: "40. Luật quốc tế có bảo vệ chủ quyền hợp pháp không?", a: "Có." }
+        ]
+    },
+    {
+        title: "TRANH CHẤP & TRÁCH NHIỆM HỌC SINH",
+        items: [
+            { q: "41. Tranh chấp biển đảo nên giải quyết bằng cách nào?", a: "Biện pháp hòa bình." },
+            { q: "42. Đàm phán có phải cách phổ biến không?", a: "Có." },
+            { q: "43. Tòa án quốc tế có vai trò gì?", a: "Phân xử tranh chấp theo luật pháp." },
+            { q: "44. Quốc gia có được đơn phương áp đặt không?", a: "Không." },
+            { q: "45. Bảo vệ môi trường biển có liên quan đến luật biển không?", a: "Có." },
+            { q: "46. Ô nhiễm biển có bị luật quốc tế điều chỉnh không?", a: "Có." },
+            { q: "47. Học sinh có thể góp phần bảo vệ biển đảo không?", a: "Có." },
+            { q: "48. Cách bảo vệ hiệu quả nhất của học sinh là gì?", a: "Hiểu đúng và lan tỏa thông tin chính xác." },
+            { q: "49. Tuyên truyền sai lệch về biển đảo có nguy hiểm không?", a: "Có, gây hiểu lầm và xung đột." },
+            { q: "50. Hiểu luật biển quốc tế giúp ích gì cho tương lai?", a: "Góp phần bảo vệ chủ quyền bằng tri thức và hòa bình." }
+        ]
+    },
+    {
+        title: "VIỆT NAM VÀ LUẬT BIỂN ĐẢO QUỐC TẾ",
+        items: [
+            { q: "51. Việt Nam là quốc gia ven biển không?", a: "Có, Việt Nam là quốc gia ven biển ở Biển Đông." },
+            { q: "52. Việt Nam có đường bờ biển dài bao nhiêu?", a: "Khoảng hơn 3.260 km." },
+            { q: "53. Việt Nam có bao nhiêu tỉnh, thành giáp biển?", a: "28 tỉnh, thành phố." },
+            { q: "54. Việt Nam tham gia Công ước Luật Biển UNCLOS năm nào?", a: "Năm 1994." },
+            { q: "55. Việt Nam xác định các vùng biển theo văn bản nào?", a: "Theo UNCLOS 1982 và luật pháp Việt Nam." },
+            { q: "56. Việt Nam có vùng đặc quyền kinh tế không?", a: "Có, theo quy định của UNCLOS." },
+            { q: "57. Việt Nam có quyền gì trong vùng đặc quyền kinh tế?", a: "Khai thác tài nguyên và bảo vệ môi trường biển." },
+            { q: "58. Việt Nam có thềm lục địa không?", a: "Có, là phần kéo dài tự nhiên của lục địa Việt Nam." },
+            { q: "59. Hai quần đảo Hoàng Sa và Trường Sa thuộc chủ quyền nước nào?", a: "Thuộc chủ quyền của Việt Nam." },
+            { q: "60. Việt Nam xác lập chủ quyền Hoàng Sa – Trường Sa từ khi nào?", a: "Từ rất sớm, được ghi nhận qua nhiều tư liệu lịch sử." },
+            { q: "61. Việt Nam thực thi chủ quyền biển đảo bằng biện pháp nào?", a: "Hòa bình, liên tục và phù hợp luật quốc tế." },
+            { q: "62. Quan điểm của Việt Nam về tranh chấp biển đảo là gì?", a: "Giải quyết bằng biện pháp hòa bình." },
+            { q: "63. Việt Nam có tôn trọng luật pháp quốc tế không?", a: "Có, luôn tuân thủ luật pháp quốc tế." },
+            { q: "64. Việt Nam có ủng hộ tự do hàng hải không?", a: "Có, phù hợp với UNCLOS." },
+            { q: "65. Việt Nam có tham gia bảo vệ môi trường biển không?", a: "Có, thông qua nhiều chính sách và hợp tác quốc tế." },
+            { q: "66. Luật Biển Việt Nam được ban hành năm nào?", a: "Năm 2012." },
+            { q: "67. Luật Biển Việt Nam có phù hợp UNCLOS không?", a: "Có, được xây dựng dựa trên UNCLOS 1982." },
+            { q: "68. Việt Nam phản đối hành vi vi phạm chủ quyền bằng cách nào?", a: "Biện pháp hòa bình và pháp lý." },
+            { q: "69. Biển đảo có vai trò gì với Việt Nam?", a: "Quan trọng về kinh tế, quốc phòng và văn hóa." },
+            { q: "70. Học sinh Việt Nam cần làm gì để góp phần bảo vệ biển đảo?", a: "Học tập tốt, hiểu đúng luật biển và lan tỏa thông tin chính xác." }
+        ]
+    }
+];
+
+// --- Application Logic ---
+const app = {
+    state: {
+        currentTopicIndex: 0,
+        currentQuestionIndex: 0
+    },
+
+    elements: {
+        topicList: document.getElementById('topic-list'),
+        questionList: document.getElementById('question-list'),
+        topicTitleDisplay: document.getElementById('topic-title-display'),
+        detailQuestion: document.getElementById('detail-question'),
+        detailAnswer: document.getElementById('detail-answer'),
+        answerContainer: document.getElementById('detail-answer-container'),
+        btnReveal: document.getElementById('btn-reveal'),
+        
+        views: {
+            topics: document.getElementById('view-topics'),
+            questions: document.getElementById('view-questions'),
+            detail: document.getElementById('view-detail')
+        }
+    },
+
+    init: function() {
+        this.renderTopics();
+    },
+
+    // UI Rendering
+    renderTopics: function() {
+        this.elements.topicList.innerHTML = '';
+        db.forEach((topic, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-item';
+            btn.textContent = topic.title;
+            btn.onclick = () => this.selectTopic(index);
+            this.elements.topicList.appendChild(btn);
+        });
+    },
+
+    renderQuestions: function(topicIndex) {
+        const topic = db[topicIndex];
+        this.elements.topicTitleDisplay.textContent = topic.title;
+        this.elements.questionList.innerHTML = '';
+
+        topic.items.forEach((item, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-item';
+            btn.textContent = item.q;
+            btn.onclick = () => this.selectQuestion(index);
+            this.elements.questionList.appendChild(btn);
+        });
+    },
+
+    renderDetail: function(qIndex) {
+        const item = db[this.state.currentTopicIndex].items[qIndex];
+        
+        // Populate text
+        this.elements.detailQuestion.textContent = item.q;
+        this.elements.detailAnswer.textContent = item.a;
+
+        // Reset visual state
+        this.elements.answerContainer.classList.add('hidden');
+        this.elements.btnReveal.textContent = 'Xem Câu Trả Lời';
+        this.elements.btnReveal.style.display = 'inline-block';
+    },
+
+    // Navigation Logic
+    switchView: function(viewName) {
+        // Hide all views
+        Object.values(this.elements.views).forEach(el => {
+            el.classList.remove('active');
+            el.classList.add('hidden');
+        });
+
+        // Show target view
+        this.elements.views[viewName].classList.remove('hidden');
+        this.elements.views[viewName].classList.add('active');
+        
+        // Scroll to top
+        window.scrollTo(0,0);
+    },
+
+    selectTopic: function(index) {
+        this.state.currentTopicIndex = index;
+        this.renderQuestions(index);
+        this.switchView('questions');
+    },
+
+    selectQuestion: function(index) {
+        this.state.currentQuestionIndex = index;
+        this.renderDetail(index);
+        this.switchView('detail');
+    },
+
+    toggleAnswer: function() {
+        const isHidden = this.elements.answerContainer.classList.contains('hidden');
+        if (isHidden) {
+            this.elements.answerContainer.classList.remove('hidden');
+            this.elements.btnReveal.style.display = 'none'; // Option A: Hide button
+            // this.elements.btnReveal.textContent = 'Ẩn Câu Trả Lời'; // Option B: Toggle text
+        }
+    },
+
+    goBackToTopics: function() {
+        this.switchView('topics');
+    },
+
+    goBackToQuestions: function() {
+        this.switchView('questions');
+    }
+};
+
+// Initialize the app when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    app.init();
+});
+    </script>
+</body>
+</html>
